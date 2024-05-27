@@ -13,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
+@Table(name = "role")
 public class Role extends BaseEntity {
     @Column(name = "name", nullable = false)
     private String name;

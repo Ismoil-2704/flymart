@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.List;
+
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -36,4 +38,6 @@ public class ReqUserCreate {
     private String image;
     @NotNull(message = "Role id not be null!")
     private Long roleId;
+    private List<Long> regions;
+
 }

@@ -7,11 +7,13 @@ import com.example.flymart.exeptions.DataNotFoundExceptions;
 import com.example.flymart.model.ReqUserCreate;
 import com.example.flymart.model.ReqUserUpdate;
 import com.example.flymart.payload.ApiResponseModel;
+import com.example.flymart.repository.RegionRepo;
 import com.example.flymart.repository.RoleRepo;
 import com.example.flymart.repository.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,6 +22,7 @@ public class UserService {
 
     private final UserRepo userRepo;
     private final RoleRepo roleRepo;
+    private final RegionRepo regionRepo;
 
     public void create(ReqUserCreate reqUserCreate) throws DataExistsExceptions, DataNotFoundExceptions {
         Optional<User> optionalUser = userRepo.findByUserName(reqUserCreate.getUserName());
@@ -30,7 +33,8 @@ public class UserService {
         userToSave(
                 user, reqUserCreate.getFirstName(), reqUserCreate.getLastName(),
                 reqUserCreate.getUserName(), reqUserCreate.getEmail(), reqUserCreate.getPassword(),
-                reqUserCreate.getAlgorithm(), reqUserCreate.getImage(), reqUserCreate.getRoleId()
+                reqUserCreate.getAlgorithm(), reqUserCreate.getImage(), reqUserCreate.getRoleId(),
+                reqUserCreate.getRegions()
         );
     }
 
@@ -43,12 +47,13 @@ public class UserService {
         userToSave(
                 user, reqUserUpdate.getFirstName(), reqUserUpdate.getLastName(),
                 reqUserUpdate.getUserName(), reqUserUpdate.getEmail(), reqUserUpdate.getPassword(),
-                reqUserUpdate.getAlgorithm(), reqUserUpdate.getImage(), reqUserUpdate.getRoleId()
+                reqUserUpdate.getAlgorithm(), reqUserUpdate.getImage(), reqUserUpdate.getRoleId(),
+                reqUserUpdate.getRegions()
         );
     }
 
-    private void userToSave(User user,String firstName,String lastName,String userName,String email,String password,
-                            String algorithm,String image,Long roleId) throws DataNotFoundExceptions {
+    private void userToSave(User user, String firstName, String lastName, String userName, String email, String password,
+                            String algorithm, String image, Long roleId, List<Long> regions) throws DataNotFoundExceptions {
         user.setFirstName(firstName);
         user.setLastName(lastName);
         user.setUserName(userName);
@@ -57,6 +62,7 @@ public class UserService {
         user.setAlgorithm(algorithm);
         user.setImage(image);
         user.setRole(roleRepo.findById(roleId).orElseThrow(() -> new DataNotFoundExceptions(ServerCode.ROLE_NOT_FOUND.message)));
+        user.setRegions(regionRepo.findAllById());
         userRepo.save(user);
     }
 

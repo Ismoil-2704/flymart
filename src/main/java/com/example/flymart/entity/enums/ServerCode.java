@@ -36,7 +36,11 @@ public enum ServerCode {
     OFFER_NOT_FOUND("Offer not found!"),
 
     REQUEST_CREATE("Request created!"),
-    REQUEST_NOT_FOUND("Request not found");
+    REQUEST_NOT_FOUND("Request not found"),
+
+    INVALID_TOKEN("Invalidate Token"),
+
+    TRANSACTION_EXIST("Transaction with such like offer or request exist!");
 
     public final String message;
 

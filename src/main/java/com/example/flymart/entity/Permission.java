@@ -31,7 +31,7 @@ public class Permission extends BaseEntity implements GrantedAuthority{
 
     @Override
     public String getAuthority() {
-        return null;
+        return key;
     }
 
 }

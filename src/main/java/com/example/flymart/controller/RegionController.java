@@ -47,6 +47,19 @@ public class RegionController {
         }
     }
 
+    // list of regions joined to user
+    @PreAuthorize("hasAuthority('REGION_READ')")
+    @GetMapping
+    public HttpEntity<?> list(){
+        try {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(new ApiResponseModel(regionService.list(),new Object()));
+        } catch (DataNotFoundExceptions e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponseModel(new Object(),e.getMessage()));
+        }
+    }
+
     @PreAuthorize("hasAuthority('REGION_DELETE')")
     @DeleteMapping("/{id}")
     public HttpEntity<?> delete(@NotNull(message = "Id not be null!") @PathVariable(name = "id") Long id){

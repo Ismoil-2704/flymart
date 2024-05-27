@@ -12,6 +12,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Entity
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @Getter
 @Setter
+@Table(name = "users")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,6 +46,12 @@ public class User implements UserDetails {
     @JoinColumn(name = "role_id")
     @NotFound(action = NotFoundAction.IGNORE)
     private Role role;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST,  CascadeType.REFRESH })
+    @JoinTable(name = "user_region",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns ={@JoinColumn(name = "region_id")}
+    )
+    private List<Region> regions;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

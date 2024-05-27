@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -37,4 +39,5 @@ public class ReqUserUpdate {
     private String image;
     @NotNull(message = "Role id not be null!")
     private Long roleId;
+    private List<Long> regions;
 }

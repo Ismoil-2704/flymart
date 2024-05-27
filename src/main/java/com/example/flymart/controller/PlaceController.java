@@ -50,6 +50,25 @@ public class PlaceController {
         }
     }
 
+    @PreAuthorize("hasAuthority('PLACE_READ')")
+    @GetMapping
+    public HttpEntity<?> list(){
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ApiResponseModel(placeService.list(),new Object()));
+    }
+
+    @PreAuthorize("hasAuthority('PLACE_READ')")
+    @GetMapping("/{id}")
+    public HttpEntity<?> getOne(@NotNull(message = "id not be null!") @PathVariable(name = "id") Long id){
+        try {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(new ApiResponseModel(placeService.getOne(id),new Object()));
+        } catch (DataNotFoundExceptions e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponseModel(new Object(),e.getMessage()));
+        }
+    }
+
     @PreAuthorize("hasAuthority('PLACE_DELETE')")
     @DeleteMapping("/{id}")
     public HttpEntity<?> delete(@NotNull(message = "Id not be null!") @PathVariable(name = "id") Long id){

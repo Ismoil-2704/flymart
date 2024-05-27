@@ -9,6 +9,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.List;
+
 @Configuration
 @RequiredArgsConstructor
 public class SetupConfig {
@@ -19,9 +21,6 @@ public class SetupConfig {
     @Bean
     public CommandLineRunner createDefaultRoles() {
         return args -> {
-            createRoleIfNotFound("ADMIN");
-            createRoleIfNotFound("EDITOR");
-            createRoleIfNotFound("READER");
             createPermissionIfNotFound("USER_READ");
             createPermissionIfNotFound("PRODUCT_READ");
             createPermissionIfNotFound("PLACE_CREATE");
@@ -34,13 +33,28 @@ public class SetupConfig {
             createPermissionIfNotFound("OFFER_READ");
             createPermissionIfNotFound("REQUEST_CREATE");
             createPermissionIfNotFound("REQUEST_READ");
+            createPermissionIfNotFound("PERMISSION_READ");
+            createPermissionIfNotFound("TRANSACTION_READ");
+            createPermissionIfNotFound("TRANSACTION_CREATE");
+            createPermissionIfNotFound("TRANSACTION_UPDATE");
+            createPermissionIfNotFound("TRANSACTION_DELETE");
+            createRoleIfNotFound("ADMIN");
+            createRoleIfNotFound("EDITOR");
+            createRoleIfNotFound("READER");
+            createRoleIfNotFound("CARRIER");
         };
     }
 
     private void createRoleIfNotFound(String roleName) {
         roleRepo.findByName(roleName).orElseGet(() -> {
             Role role = new Role();
-            role.setName(roleName);
+            if (roleName.equals("ADMIN")){
+                role.setName(roleName);
+                role.setPermissions(permissionRepo.findAll());
+            } else if (roleName.equals("CARRIER")) {
+                role.setName(roleName);
+                role.setPermissions(permissionRepo.findAllByKey(List.of("TRANSACTION_READ","TRANSACTION_CREATE","TRANSACTION_UPDATE","TRANSACTION_DELETE")));
+            }
             return roleRepo.save(role);
         });
     }

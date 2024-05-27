@@ -13,11 +13,15 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "offer")
-public class Offer extends BaseEntity{
-    @Column(name = "offer")
-    private String offer;
+@Table(name = "transactions")
+public class Transactions extends BaseEntity{
     @Column(name = "code")
     private Long code;
+    @Column(name = "carrier_id")
+    private Long carrierId;
+    @Column(name = "request_code")
+    private Long requestCode;
+    @Column(name = "offer_code")
+    private Long offerCode;
 
 }

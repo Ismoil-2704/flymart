@@ -1,18 +1,18 @@
 package com.example.flymart.utils;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class PasswordUtil {
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Autowired
-    private SCryptPasswordEncoder sCryptPasswordEncoder;
+    private final SCryptPasswordEncoder sCryptPasswordEncoder;
 
     public String hashPassword(String password, String algorithm) {
         if ("bcrypt".equalsIgnoreCase(algorithm)) {
