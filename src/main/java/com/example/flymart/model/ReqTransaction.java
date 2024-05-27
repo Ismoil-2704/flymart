@@ -14,4 +14,6 @@ public class ReqTransaction {
     private String carrierName;
     private Long requestCode;
     private Long offerCode;
+    private ReqAddress fromAddress;
+    private ReqAddress toAddress;
 }
