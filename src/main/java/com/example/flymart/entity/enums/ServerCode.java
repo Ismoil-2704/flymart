@@ -17,6 +17,7 @@ public enum ServerCode {
     PRODUCT_CREATE("Product created!"),
     PRODUCT_UPDATE("Product updated!"),
     PRODUCT_EXIST("Product exist"),
+    PRODUCT_EXIST_WITH_CODE("Product exist with such like code!"),
     PRODUCT_NOT_FOUND("Product not found!"),
     PRODUCT_DELETE("Product Delete"),
 
@@ -36,11 +37,15 @@ public enum ServerCode {
     OFFER_NOT_FOUND("Offer not found!"),
 
     REQUEST_CREATE("Request created!"),
+    REQUEST_UPDATE("Request updated!"),
     REQUEST_NOT_FOUND("Request not found"),
+    REQUEST_EXIST_CODE("Request with such like code exist!"),
 
     INVALID_TOKEN("Invalidate Token"),
 
-    TRANSACTION_EXIST("Transaction with such like offer or request exist!");
+    TRANSACTION_EXIST("Transaction with such like offer or request exist!"),
+    TRANSACTION_CREATE("Transaction created!"),
+    TRANSACTION_NOT_FOUND("Transaction not found!");
 
     public final String message;
 

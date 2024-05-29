@@ -17,5 +17,11 @@ public class Offer extends BaseEntity{
     private String offer;
     @Column(name = "code")
     private Long code;
+    @Column(name = "product_code")
+    private String productCode;
+    @Column(name = "place_id")
+    private Long placeId;
+    @Column(name = "user_id")
+    private Long userId;
 
 }

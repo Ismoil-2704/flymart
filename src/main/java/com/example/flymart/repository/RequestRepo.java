@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface RequestRepo extends JpaRepository<Request,Long> {
-    Optional<Request> findByCode(Long requestCode);
+    Optional<Request> findByCode(String requestCode);
 }

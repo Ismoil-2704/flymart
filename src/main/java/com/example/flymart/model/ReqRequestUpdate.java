@@ -10,7 +10,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ReqRequestCreate {
+public class ReqRequestUpdate {
+    @NotNull()
+    private Long id;
     @NotNull(message = "request not be null!")
     private String request;
     @NotNull(message = "code not be null!")

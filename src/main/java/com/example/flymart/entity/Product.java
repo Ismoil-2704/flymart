@@ -16,6 +16,13 @@ import java.util.List;
 public class Product extends BaseEntity{
     @Column(name = "name")
     private String name;
+    @Column(name = "price")
+    private Double price;
+    @Column(name = "code")
+    private String code;
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST,  CascadeType.REFRESH })
     @JoinTable(name = "product_request",
             joinColumns = {@JoinColumn(name = "product_id")},

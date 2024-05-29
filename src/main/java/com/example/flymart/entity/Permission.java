@@ -22,13 +22,6 @@ public class Permission extends BaseEntity implements GrantedAuthority{
 
     @Column(name = "description")
     private String description;
-//
-//    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST,  CascadeType.REFRESH })
-//    @JoinTable(name = "role_permission",
-//            joinColumns = {@JoinColumn(name = "permission_id")},
-//            inverseJoinColumns = {@JoinColumn(name = "role_id")})
-//    private List<Role> roleList;
-
     @Override
     public String getAuthority() {
         return key;

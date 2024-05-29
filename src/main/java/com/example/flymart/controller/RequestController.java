@@ -1,9 +1,11 @@
 package com.example.flymart.controller;
 
 import com.example.flymart.entity.enums.ServerCode;
+import com.example.flymart.exeptions.DataExistsExceptions;
 import com.example.flymart.exeptions.DataNotFoundExceptions;
 import com.example.flymart.model.ReqOfferCreate;
 import com.example.flymart.model.ReqRequestCreate;
+import com.example.flymart.model.ReqRequestUpdate;
 import com.example.flymart.payload.ApiResponseModel;
 import com.example.flymart.service.RequestService;
 import jakarta.validation.Valid;
@@ -24,9 +26,33 @@ public class RequestController {
     @PostMapping("/create")
     @PreAuthorize("hasAuthority('REQUEST_CREATE')")
     public HttpEntity<?> create(@Valid @RequestBody ReqRequestCreate requestCreate){
-        requestService.create(requestCreate);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(new ApiResponseModel(ServerCode.REQUEST_CREATE.message,new Object()));
+        try {
+            requestService.create(requestCreate);
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(new ApiResponseModel(ServerCode.REQUEST_CREATE.message,new Object()));
+        } catch (DataExistsExceptions e) {
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
+                    .body(new ApiResponseModel(new Object(),e.getMessage()));
+        } catch (DataNotFoundExceptions e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponseModel(new Object(),e.getMessage()));
+        }
+    }
+
+    @PutMapping("/update")
+    @PreAuthorize("hasAuthority('REQUEST_UPDATE')")
+    public HttpEntity<?> update(@Valid @RequestBody ReqRequestUpdate reqRequestUpdate){
+        try {
+            requestService.update(reqRequestUpdate);
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(new ApiResponseModel(ServerCode.REQUEST_UPDATE.message,new Object()));
+        } catch (DataExistsExceptions e) {
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
+                    .body(new ApiResponseModel(new Object(),e.getMessage()));
+        } catch (DataNotFoundExceptions e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponseModel(new Object(),e.getMessage()));
+        }
     }
 
     @GetMapping

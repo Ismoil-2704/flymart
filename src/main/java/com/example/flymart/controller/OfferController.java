@@ -24,9 +24,14 @@ public class OfferController {
     @PostMapping("/create")
     @PreAuthorize("hasAuthority('OFFER_CREATE')")
     public HttpEntity<?> create(@Valid @RequestBody ReqOfferCreate offerCreate){
-        offerService.create(offerCreate);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(new ApiResponseModel(ServerCode.OFFER_CREATE.message,new Object()));
+        try {
+            offerService.create(offerCreate);
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(new ApiResponseModel(ServerCode.OFFER_CREATE.message,new Object()));
+        } catch (DataNotFoundExceptions e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponseModel(new Object(),e.getMessage()));
+        }
     }
 
     @GetMapping
@@ -34,6 +39,13 @@ public class OfferController {
     public HttpEntity<?> list(){
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ApiResponseModel(offerService.list(),new Object()));
+    }
+
+    @GetMapping("/userOffers")
+    @PreAuthorize("hasAuthority('OFFER_READ')")
+    public HttpEntity<?> userOffers(){
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ApiResponseModel(offerService.getUserOffers(),new Object()));
     }
 
     @GetMapping("/{id}")

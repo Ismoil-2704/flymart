@@ -51,4 +51,11 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(productService.list());
     }
+
+    @GetMapping("/userProducts")
+    @PreAuthorize("hasAuthority('PRODUCT_READ')")
+    public HttpEntity<?> userProducts(){
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(productService.getUserProductList());
+    }
 }

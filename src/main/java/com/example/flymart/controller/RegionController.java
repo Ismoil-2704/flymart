@@ -60,6 +60,17 @@ public class RegionController {
         }
     }
 
+    @GetMapping("/carrierByRegion/{name}")
+    public HttpEntity<?> getByRegion(@NotNull(message = "id not be null!") @PathVariable(name = "name") String region_name){
+        try {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(new ApiResponseModel(regionService.getCarriersForRegion(region_name),new Object()));
+        } catch (DataNotFoundExceptions e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponseModel(new Object(),e.getMessage()));
+        }
+    }
+
     @PreAuthorize("hasAuthority('REGION_DELETE')")
     @DeleteMapping("/{id}")
     public HttpEntity<?> delete(@NotNull(message = "Id not be null!") @PathVariable(name = "id") Long id){

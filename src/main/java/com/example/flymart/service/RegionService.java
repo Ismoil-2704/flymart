@@ -10,6 +10,7 @@ import com.example.flymart.model.ReqRegionCreate;
 import com.example.flymart.model.ReqRegionUpdate;
 import com.example.flymart.repository.PlaceRepo;
 import com.example.flymart.repository.RegionRepo;
+import com.example.flymart.repository.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ public class RegionService {
     private final RegionRepo regionRepo;
     private final PlaceRepo placeRepo;
     private final AuthService authService;
+    private final UserRepo userRepo;
 
     public void create(ReqRegionCreate regionCreate) throws DataExistsExceptions {
         Optional<Region> optional = regionRepo.findByName(regionCreate.getName());
@@ -64,5 +66,14 @@ public class RegionService {
         List<Region> regions = regionRepo.findAllById(user.getRegions().stream().map(Region::getId).toList());
         regions.sort(Comparator.comparing(BaseEntity::getId));
         return regions;
+    }
+
+
+    public Object getCarriersForRegion(String regionName) throws DataNotFoundExceptions {
+        Optional<Region> optionalRegion = regionRepo.findByName(regionName);
+        if (optionalRegion.isEmpty()){
+            throw new DataNotFoundExceptions(ServerCode.REGION_NOT_FOUND.message);
+        }
+        return userRepo.findByRegionAndRole(optionalRegion.get().getId(),"CARRIER").orElseThrow();
     }
 }

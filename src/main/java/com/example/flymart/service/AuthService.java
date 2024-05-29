@@ -13,6 +13,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -24,15 +25,15 @@ import java.util.Optional;
 public class AuthService {
 
     private final UserRepo userRepo;
-    private final PasswordUtil passwordUtil;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
+    private final PasswordEncoder passwordEncoder;
 
     public Map<String, Object> login(ReqAuth reqAuth) throws DataNotFoundExceptions {
-        Optional<User> optional = userRepo.findByUsernameOrEmail(reqAuth.getUsernameOrEmail());
+        String encode = passwordEncoder.encode(reqAuth.getPassword());
+        Optional<User> optional = userRepo.findByUsernameOrEmailAndPassword(reqAuth.getUsernameOrEmail(),encode);
         if (optional.isPresent()) {
             User user = optional.get();
-            String encode = passwordUtil.hashPassword(reqAuth.getPassword(), user.getAlgorithm());
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             reqAuth.getUsernameOrEmail(),

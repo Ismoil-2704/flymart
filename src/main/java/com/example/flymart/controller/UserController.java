@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
 
+    @PreAuthorize("hasAuthority('USER_CREATE')")
     @PostMapping("/create")
     public HttpEntity<?> create(@Valid @RequestBody ReqUserCreate reqUserCreate){
         try {
@@ -36,7 +37,7 @@ public class UserController {
                     .body(new ApiResponseModel(new Object(),e.getMessage()));
         }
     }
-
+    @PreAuthorize("hasAuthority('USER_EDIT')")
     @PutMapping("/update")
     public HttpEntity<?> update(@Valid @RequestBody ReqUserUpdate reqUserUpdate){
         try {
@@ -48,7 +49,7 @@ public class UserController {
                     .body(new ApiResponseModel(new Object(),e.getMessage()));
         }
     }
-
+    @PreAuthorize("hasAuthority('USER_EDIT')")
     @PutMapping("/status")
     public HttpEntity<?> updateStatus(@NotNull(message = "Id not be null!") @RequestParam(name = "id") Long id,
                                       @RequestParam(name = "status") boolean status){
@@ -69,6 +70,7 @@ public class UserController {
                .body(userService.list());
     }
 
+    @PreAuthorize("hasAuthority('USER_READ')")
     @DeleteMapping("/{id}")
     public HttpEntity<?> update(@NotNull(message = "Id not be null!") @PathVariable(name = "id") Long id){
         try {
