@@ -14,7 +14,7 @@ import lombok.Setter;
 public class ReqOfferCreate {
     private String offer;
     @NotNull(message = "code not be null!")
-    private Long code;
+    private String code;
     @NotNull(message = "product code not be null!")
     private String productCode;
     @NotNull(message = "place id not be null!")

@@ -36,7 +36,7 @@ public class TransactionService {
     }
 
     public Object getUserTransactions(Long userId) throws DataNotFoundExceptions {
-        Optional<Transactions> transactionsOptional = transactionRepo.finByUserId(userId);
+        Optional<Transactions> transactionsOptional = transactionRepo.findByUserId(userId);
         if (transactionsOptional.isEmpty()){
             throw new DataNotFoundExceptions(ServerCode.TRANSACTION_NOT_FOUND.message);
         }

@@ -15,6 +15,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
+@Table(name = "permissions")
 public class Permission extends BaseEntity implements GrantedAuthority{
 
     @Column(name = "key", nullable = false)

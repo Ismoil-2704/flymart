@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class StatisticService {
     private final TransactionRepo transactionRepo;
-    public Object numberOfTransactionsPerProduct(){
-        return null;
+    public Object getProductTransactionCounts() {
+        return transactionRepo.findProductTransactionCounts();
     }
 }

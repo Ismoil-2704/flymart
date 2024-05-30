@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Repository
 public interface OfferRepo extends JpaRepository<Offer,Long> {
-    Optional<Offer> findByCode(Long offerCode);
+    Optional<Offer> findByCode(String offerCode);
 
     List<Offer> findByUserId(Long id);
 }

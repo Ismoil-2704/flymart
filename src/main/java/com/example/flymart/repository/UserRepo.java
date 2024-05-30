@@ -11,18 +11,17 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepo extends JpaRepository<User, Long> {
-    Optional<User> findByUsernameOrEmail(String usernameOrEmail);
-    Optional<User> findByUsernameOrEmailAndPassword(String usernameOrEmail,String password);
+    Optional<User> findByUserNameOrEmailAndPassword(String usernameOrEmail,String email,String password);
 
     Optional<User> findByUserName(String username);
 
     @Query("""
-                        select u.user_name,r.name from users u
-                        left join user_region ur on ur.user_id = u.id
-                        left join region r on r.id = ur.region_id
-                        left join role r on r.id = u.role_id
-                        where ur.region_id = :region_id and r.name =:role_name
-            """)
+        select u 
+        from User u
+        left join u.regions rg
+        left join u.role ro
+        where rg.id = :region_id and ro.name = :role_name
+    """)
     Optional<User> findByRegionAndRole(@Param("region_id") Long regionId,
                                        @Param("role_name") String roleName);
 }

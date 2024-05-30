@@ -22,7 +22,7 @@ public class ReqTransaction {
     @NotNull(message = "request code not be null!!")
     private String requestCode;
     @NotNull(message = "offer code not be null!!")
-    private Long offerCode;
+    private String offerCode;
     @Size(min = 1 ,message = "place have to be minimum 1")
     private List<Long> places;
     @NotNull(message = "user id not be null!")

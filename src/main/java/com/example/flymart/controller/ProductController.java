@@ -30,6 +30,9 @@ public class ProductController {
         } catch (DataExistsExceptions e) {
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
                     .body(new ApiResponseModel(new Object(),e.getMessage()));
+        } catch (DataNotFoundExceptions e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponseModel(new Object(),e.getMessage()));
         }
     }
 

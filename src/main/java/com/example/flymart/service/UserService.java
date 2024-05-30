@@ -62,7 +62,7 @@ public class UserService {
         user.setAlgorithm(algorithm);
         user.setImage(image);
         user.setRole(roleRepo.findById(roleId).orElseThrow(() -> new DataNotFoundExceptions(ServerCode.ROLE_NOT_FOUND.message)));
-        user.setRegions(regionRepo.findAllById());
+        user.setRegions(regionRepo.findAllById(regions));
         userRepo.save(user);
     }
 
